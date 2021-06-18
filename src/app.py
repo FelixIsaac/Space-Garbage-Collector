@@ -10,10 +10,10 @@ screen.bgpic('./assets/background.gif')
 screen.title('Space Garbage Collector')
 
 # game state
-ready = True
+ready = False
 garbages = []
 level = 0
-development = False
+development = True
 
 def create_garbage(garbages_num):
 	(x, y) = screensize()
@@ -37,7 +37,9 @@ def create_garbage(garbages_num):
 		garbages.append(garbage)
 
 def level_up():
-	global level
+	global level, ready
+
+	ready = True
 	level += 1
 
 	if level == 1: player.show()
@@ -47,8 +49,22 @@ def level_up():
 if not development: start_intro(level_up)
 else: level_up()
 
-screen.onkeypress(player.left, 'Left')
-screen.onkeypress(player.right, 'Right')
+screen.onkeypress(lambda: player.left() if ready else None, 'a')
+screen.onkeypress(lambda: player.left() if ready else None, 'Left')
+
+screen.onkeypress(lambda: player.right() if ready else None, 'd')
+screen.onkeypress(lambda: player.right() if ready else None, 'Right')
+
+screen.onkey(lambda: player.shoot() if ready else None, 'w')
+screen.onkey(lambda: player.shoot() if ready else None, 'Up')
+screen.onkey(lambda: player.shoot() if ready else None, 'space')
 screen.listen()
 
+def game():
+	player.bullet_movement()
+
+	screen.update()
+	screen.ontimer(game, 50)
+
+game()
 screen.mainloop()
