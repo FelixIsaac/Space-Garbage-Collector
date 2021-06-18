@@ -38,17 +38,25 @@ def right():
 
 def shoot():
 	if collector_bullet.isvisible(): return
-	print('SHOOT')
 
 	(collector_x, collector_y) = collector.position()
+
+	collector_bullet.speed(0)
 	collector_bullet.setposition(collector_x, collector_y + 20)
 	collector_bullet.showturtle()
+	collector_bullet.speed(3)
 
 def bullet_movement():
 	collector_bullet.forward(10)
 
 	if collector_bullet.ycor() > y:
 		collector_bullet.hideturtle()
+
+def bullet_collided_with(garbage):
+	return collector_bullet.distance(garbage) < (20 + garbage.width() + 1)
+
+def is_bullet_visible():
+	return collector_bullet.isvisible()
 
 def show():
 	collector.showturtle()

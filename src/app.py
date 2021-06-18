@@ -7,7 +7,7 @@ import collector as player
 screen = Screen()
 screen.bgcolor('#000000')
 screen.bgpic('./assets/background.gif')
-screen.title('Space Garbage Collector')
+screen.title('Space Junk Collector')
 
 # game state
 ready = False
@@ -61,7 +61,14 @@ screen.onkey(lambda: player.shoot() if ready else None, 'space')
 screen.listen()
 
 def game():
-	player.bullet_movement()
+	if player.is_bullet_visible():
+		player.bullet_movement()
+
+		for index, garbage in list(enumerate(garbages)):
+			if player.bullet_collided_with(garbage):
+				garbage.clear()
+				garbage.hideturtle()
+				garbages.remove(garbage)
 
 	screen.update()
 	screen.ontimer(game, 50)
