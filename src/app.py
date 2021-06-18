@@ -14,7 +14,7 @@ ready = False
 def onclick():
 	print('Hello world! User clicked on button')
 
-show_alert('Welcome to Space Garbage Collector!', onclick, 200)
+show_alert('Welcome to Space Garbage Collector!', onclick, 500)
 
 def create_garbage(garbages):
 	(x, y) = turtle.screensize()
