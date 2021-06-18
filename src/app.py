@@ -2,6 +2,7 @@ import random
 from turtle import Screen, Turtle, screensize
 from utils.alerts import show_alert
 from intro import start_intro
+import collector as player
 
 screen = Screen()
 screen.bgcolor('#000000')
@@ -39,8 +40,15 @@ def level_up():
 	global level
 	level += 1
 
+	if level == 1: player.show()
+
 	create_garbage(3 * level)
 
 if not development: start_intro(level_up)
+else: level_up()
+
+screen.onkeypress(player.left, 'Left')
+screen.onkeypress(player.right, 'Right')
+screen.listen()
 
 screen.mainloop()
