@@ -58,5 +58,8 @@ def bullet_collided_with(junk):
 def is_bullet_visible():
 	return collector_bullet.isvisible()
 
+def destroy_bullet():
+	collector_bullet.hideturtle()
+
 def show():
 	collector.showturtle()

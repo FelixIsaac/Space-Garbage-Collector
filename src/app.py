@@ -1,6 +1,7 @@
 import random
 from turtle import Screen, Turtle, screensize
 from utils.alerts import show_alert
+from utils.score import update_scoreboard
 from intro import start_intro
 import collector as player
 
@@ -10,10 +11,11 @@ screen.bgpic('./assets/background.gif')
 screen.title('Space Junk Collector')
 
 # game state
+development = False
 ready = False
-junk_list = []
 level = 0
-development = True
+score = 0
+junk_list = []
 
 def create_junk(num_of_junk):
 	(x, y) = screensize()
@@ -44,6 +46,7 @@ def level_up():
 
 	if level == 1: player.show()
 
+	update_scoreboard(score, level)
 	create_junk(3 * level)
 
 if not development: start_intro(level_up)
@@ -61,6 +64,8 @@ screen.onkey(lambda: player.shoot() if ready else None, 'space')
 screen.listen()
 
 def game():
+	global score, level
+
 	if player.is_bullet_visible():
 		player.bullet_movement()
 
@@ -69,9 +74,18 @@ def game():
 				junk.clear()
 				junk.hideturtle()
 				junk_list.remove(junk)
+				
+				score += 1
+				update_scoreboard(score, level)
+
+			if len(junk_list) == 0:
+				# no more junk, level up!
+				player.destroy_bullet()
+				level_up()
 
 	screen.update()
 	screen.ontimer(game, 50)
 
 game()
+update_scoreboard(score, level)
 screen.mainloop()
