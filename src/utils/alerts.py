@@ -84,6 +84,11 @@ def show_alert(message, button_click, width = 200, text_color = 'white', box_col
 		if (
 			x >= button_positions[1][0] and x <= button_positions[0][0]
 			and y >= button_positions[2][1] and y <= button_positions[0][1]
-		): button_click()
+		):
+			# clear dialoge and button listener
+			onscreenclick(None)
+			box.reset()
+
+			button_click()
 
 	onscreenclick(check_button_click, 1)
