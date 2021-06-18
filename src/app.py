@@ -1,6 +1,7 @@
 import random
 from turtle import Screen, Turtle, screensize
 from utils.alerts import show_alert
+from intro import start_intro
 
 screen = Screen()
 screen.bgcolor('#000000')
@@ -11,6 +12,7 @@ screen.title('Space Garbage Collector')
 ready = True
 garbages = []
 level = 0
+development = False
 
 def create_garbage(garbages_num):
 	(x, y) = screensize()
@@ -38,9 +40,7 @@ def level_up():
 	level += 1
 
 	create_garbage(3 * level)
-	
 
-show_alert('Welcome to Space Garbage Collector!', lambda: show_alert('There\'s a lot of garbage orbiting Earth. \nShoot the garbage and level up', level_up, 500), 500)
+if not development: start_intro(level_up)
 
-while True:
-	screen.update()
+screen.mainloop()
