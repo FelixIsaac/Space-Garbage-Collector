@@ -52,8 +52,8 @@ def bullet_movement():
 	if collector_bullet.ycor() > y:
 		collector_bullet.hideturtle()
 
-def bullet_collided_with(garbage):
-	return collector_bullet.distance(garbage) < (20 + garbage.width() + 1)
+def bullet_collided_with(junk):
+	return collector_bullet.distance(junk) < (20 + junk.width() + 1)
 
 def is_bullet_visible():
 	return collector_bullet.isvisible()

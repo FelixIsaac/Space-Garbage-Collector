@@ -11,30 +11,30 @@ screen.title('Space Junk Collector')
 
 # game state
 ready = False
-garbages = []
+junk_list = []
 level = 0
 development = True
 
-def create_garbage(garbages_num):
+def create_junk(num_of_junk):
 	(x, y) = screensize()
 
-	for i in range(garbages_num):
+	for i in range(num_of_junk):
 		randomX = random.randint(-x, x)
 		randomY = random.randint(-7, y)
 		randomWidth = random.uniform(0.5, 1.5)
 		randomHeight = random.uniform(0.5, 1.5)
 
-		garbage = Turtle()
-		garbage.speed(0)
-		garbage.hideturtle()
-		garbage.color('red')
-		garbage.shape('circle')
-		garbage.penup()
-		garbage.shapesize(randomWidth, randomHeight)
-		garbage.goto(randomX, randomY)
-		garbage.showturtle()
+		junk = Turtle()
+		junk.speed(0)
+		junk.hideturtle()
+		junk.color('red')
+		junk.shape('circle')
+		junk.penup()
+		junk.shapesize(randomWidth, randomHeight)
+		junk.goto(randomX, randomY)
+		junk.showturtle()
 
-		garbages.append(garbage)
+		junk_list.append(junk)
 
 def level_up():
 	global level, ready
@@ -44,7 +44,7 @@ def level_up():
 
 	if level == 1: player.show()
 
-	create_garbage(3 * level)
+	create_junk(3 * level)
 
 if not development: start_intro(level_up)
 else: level_up()
@@ -64,11 +64,11 @@ def game():
 	if player.is_bullet_visible():
 		player.bullet_movement()
 
-		for index, garbage in list(enumerate(garbages)):
-			if player.bullet_collided_with(garbage):
-				garbage.clear()
-				garbage.hideturtle()
-				garbages.remove(garbage)
+		for index, junk in list(enumerate(junk_list)):
+			if player.bullet_collided_with(junk):
+				junk.clear()
+				junk.hideturtle()
+				junk_list.remove(junk)
 
 	screen.update()
 	screen.ontimer(game, 50)

@@ -1,8 +1,8 @@
 from utils.alerts import show_alert
 
 intros = [
-	'Welcome to Space Garbage Collector!',
-	'There\'s a lot of garbage orbiting Earth. \nShoot the garbage and level up'
+	'Welcome to Space Junk Collector!',
+	'There\'s a lot of space junk and garbage orbiting Earth. \nShoot the garbage and level up'
 ]
 
 # def onclick():
