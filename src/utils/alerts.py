@@ -15,6 +15,7 @@ def draw_rect(turtle, width, height):
 
 def show_alert(message, button_click, width = 200, text_color = 'white', box_color = 'red'):
 	box = Turtle()
+	box.hideturtle()
 
 	# center box
 	(x, y) = screensize()
@@ -23,7 +24,6 @@ def show_alert(message, button_click, width = 200, text_color = 'white', box_col
 	box.penup()
 	box.goto(-x + width / 4, -(width / 4))
 	box.pendown()
-	box.hideturtle()
 
 	# draw shape
 	box.color(box_color)
@@ -87,7 +87,7 @@ def show_alert(message, button_click, width = 200, text_color = 'white', box_col
 		):
 			# clear dialoge and button listener
 			onscreenclick(None)
-			box.reset()
+			box.clear()
 
 			button_click()
 
