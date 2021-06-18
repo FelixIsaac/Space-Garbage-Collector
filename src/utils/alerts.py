@@ -31,21 +31,25 @@ def show_alert(message, button_click, width = 200, text_color = 'white', box_col
 	draw_rect(box, width, width / 2)
 	box.end_fill()
 	
+	# make sure text is always in the box
+	lines = len(message.split('\n'))
+
 	# go to center of message box and write text
 	box.penup()
 	box.forward(width / 2)
 	box.left(90)
 	box.forward(width / 4)
-	box.pendown()
 
 	# write text
+	box.backward(16 * lines - width / 8)
 	box.color(text_color)
 	box.write(
 		message,
 		font=('San Serif', 16, 'normal'),
 		align='center'
 	)
-	
+	box.forward(16 * lines - width / 8)
+
 	# Button
 	button_width = 150
 	button_height = 30

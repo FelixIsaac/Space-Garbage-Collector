@@ -2,7 +2,18 @@ from utils.alerts import show_alert
 
 intros = [
 	'Welcome to Space Junk Collector!',
-	'There\'s a lot of space junk and garbage orbiting Earth. \nShoot the garbage and level up'
+	'''
+There\'s a lot of space junk/garbage orbiting Earth.
+	''',
+	'''
+Collect the junk by shooting bullets.
+Level up when there is no more junk
+
+Move left and right by pressing/holding the
+left or right arrow keys, or 'A' and 'D'
+
+Shoot by pressing 'W", 'space', or the 'Up' arrow key
+	'''
 ]
 
 # def onclick():
