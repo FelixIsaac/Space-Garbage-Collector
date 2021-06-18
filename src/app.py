@@ -10,7 +10,11 @@ screen.title('Space Garbage Collector')
 ready = False
 
 # screen.textinput("Welcoem to Space Garbage Collector", "There's a lot of garbage orbiting Earth")
-show_alert('Welcome to Space Garbage Collector!', 500)
+
+def onclick():
+	print('Hello world! User clicked on button')
+
+show_alert('Welcome to Space Garbage Collector!', onclick, 200)
 
 def create_garbage(garbages):
 	(x, y) = turtle.screensize()

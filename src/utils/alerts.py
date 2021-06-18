@@ -1,13 +1,15 @@
-from turtle import Turtle, screensize
+from turtle import Turtle, screensize, onscreenclick
 
 def draw_rect(turtle, width, height):
 	for i in range(4):
+		print('button', turtle.pos())
+
 		if i % 2: turtle.forward(height)
 		else: turtle.forward(width)
 
 		turtle.left(90)
 
-def show_alert(message, width = 200, text_color = 'white', box_color = 'red'):
+def show_alert(message, button_click, width = 200, text_color = 'white', box_color = 'red'):
 	box = Turtle()
 
 	# center box
@@ -72,3 +74,10 @@ def show_alert(message, width = 200, text_color = 'white', box_color = 'red'):
 		font=('San Serif', 16, 'normal'),
 		align='center'
 	)
+
+	# listen for button click
+	def check_button_click(x, y):
+		if x >= -112.5 and x <= 37.5 and y >= -115 and y <= -85:
+			button_click()
+
+	onscreenclick(check_button_click, 1)
