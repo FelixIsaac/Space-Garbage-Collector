@@ -1,4 +1,5 @@
 import random
+from playsound import playsound
 from turtle import Screen, Turtle, screensize
 from utils.alerts import show_alert
 from utils.score import update_scoreboard
@@ -15,7 +16,7 @@ screen.addshape('./assets/collector.gif')
 screen.addshape('./assets/satellite-1.gif')
 
 # game state
-development = False
+development = True
 ready = False
 level = 0
 score = 0
@@ -45,7 +46,7 @@ def create_junk(num_of_junk):
 		junk_list.append(junk)
 
 def level_up():
-	global level, ready
+	global level, ready, junk_speed
 
 	ready = True
 	level += 1
@@ -55,7 +56,7 @@ def level_up():
 	update_scoreboard(score, level)
 	create_junk(3 * level)
 
-	# junk_speed = level + 1
+	junk_speed += level
 
 if not development: start_intro(level_up)
 else: level_up()
@@ -77,6 +78,7 @@ def game():
 	global score, level
 
 	if player.is_bullet_visible():
+		# bullet_speed = None
 		player.bullet_movement()
 
 		for index, junk in list(enumerate(junk_list)):
@@ -87,6 +89,9 @@ def game():
 				
 				score += 1
 				update_scoreboard(score, level)
+
+				# play sound
+				playsound('./assets/audio/collect_sound_effect.mp3', block=False)
 
 			if len(junk_list) == 0:
 				# no more junk, level up!
@@ -104,9 +109,10 @@ def game():
 		if (abs(x - 10) <= screen_x):
 			heading = junk.heading()
 			junk.setheading(-heading)
-		
 
-		junk.forward(junk_speed)
+		# consistent speed 
+		mod = ((junk_speed * len(junk_list)) / (junk_speed * 3)) / 10
+		junk.forward(mod)
 
 	screen.ontimer(game, 1)
 

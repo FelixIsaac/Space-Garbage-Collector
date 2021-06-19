@@ -1,3 +1,4 @@
+from playsound import playsound
 from turtle import Turtle, screensize
 
 (x, y) = screensize()
@@ -37,6 +38,7 @@ def right():
 def shoot():
 	if collector_bullet.isvisible(): return
 
+	playsound('./assets/audio/shoot.mp3', block=False)
 	(collector_x, collector_y) = collector.position()
 
 	collector_bullet.speed(0)
@@ -44,8 +46,8 @@ def shoot():
 	collector_bullet.showturtle()
 	collector_bullet.speed(3)
 
-def bullet_movement():
-	collector_bullet.forward(2)
+def bullet_movement(speed = 2):
+	collector_bullet.forward(speed)
 
 	if collector_bullet.ycor() > y:
 		collector_bullet.hideturtle()
