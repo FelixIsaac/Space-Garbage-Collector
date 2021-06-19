@@ -8,6 +8,8 @@ screen = Screen()
 screen.bgcolor('#000000')
 screen.bgpic('./assets/background.gif')
 screen.title('Space Junk Collector')
+screen.delay(0)
+
 # images
 screen.addshape('./assets/collector.gif')
 screen.addshape('./assets/satellite-1.gif')
@@ -18,6 +20,7 @@ ready = False
 level = 0
 score = 0
 junk_list = []
+junk_speed = 0.1
 
 import collector as player
 
@@ -52,9 +55,12 @@ def level_up():
 	update_scoreboard(score, level)
 	create_junk(3 * level)
 
+	# junk_speed = level + 1
+
 if not development: start_intro(level_up)
 else: level_up()
 
+# keys
 screen.onkeypress(lambda: player.left() if ready else None, 'a')
 screen.onkeypress(lambda: player.left() if ready else None, 'Left')
 
@@ -66,6 +72,7 @@ screen.onkey(lambda: player.shoot() if ready else None, 'Up')
 screen.onkey(lambda: player.shoot() if ready else None, 'space')
 screen.listen()
 
+# game loop / object collision detection
 def game():
 	global score, level
 
@@ -86,9 +93,25 @@ def game():
 				player.destroy_bullet()
 				level_up()
 
-	screen.update()
-	screen.ontimer(game, 50)
+	for junk in junk_list:
+		(screen_x, sceen_y) = screensize()
+		(x, y) = junk.position()
+
+		if (abs(x + 10) >= screen_x):
+			heading = junk.heading()
+			junk.setheading(180 - heading)
+
+		if (abs(x - 10) <= screen_x):
+			heading = junk.heading()
+			junk.setheading(-heading)
+		
+
+		junk.forward(junk_speed)
+
+	screen.ontimer(game, 1)
 
 game()
 update_scoreboard(score, level)
+
+screen.update()
 screen.mainloop()
