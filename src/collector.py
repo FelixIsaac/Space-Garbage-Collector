@@ -1,3 +1,4 @@
+import threading
 from playsound import playsound
 from turtle import Turtle, screensize
 
@@ -35,10 +36,15 @@ def right():
 	
 	collector.goto(collector_x + 30, collector_y)
 
+
+def playeffect():
+	thread = threading.Thread(target = lambda: playsound('./assets/audio/shoot.mp3', block=False), name = 'soundThread')
+	thread.start()
+
 def shoot():
 	if collector_bullet.isvisible(): return
 
-	playsound('./assets/audio/shoot.mp3', block=False)
+	playeffect()
 	(collector_x, collector_y) = collector.position()
 
 	collector_bullet.speed(0)

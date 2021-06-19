@@ -1,4 +1,5 @@
-import random
+import threading
+from random import randint, uniform
 from playsound import playsound
 from turtle import Screen, Turtle, screensize
 from utils.alerts import show_alert
@@ -16,7 +17,7 @@ screen.addshape('./assets/collector.gif')
 screen.addshape('./assets/satellite-1.gif')
 
 # game state
-development = True
+development = False
 ready = False
 level = 0
 score = 0
@@ -29,10 +30,10 @@ def create_junk(num_of_junk):
 	(x, y) = screensize()
 
 	for i in range(num_of_junk):
-		randomX = random.randint(-x, x)
-		randomY = random.randint(-7, y)
-		randomWidth = random.uniform(0.5, 1.5)
-		randomHeight = random.uniform(0.5, 1.5)
+		randomX = randint(-x, x)
+		randomY = randint(-7, y)
+		randomWidth = uniform(0.5, 1.5)
+		randomHeight = uniform(0.5, 1.5)
 
 		junk = Turtle()
 		junk.speed(0)
@@ -91,7 +92,15 @@ def game():
 				update_scoreboard(score, level)
 
 				# play sound
-				playsound('./assets/audio/collect_sound_effect.mp3', block=False)
+				def play_collect_sound():
+					thread = threading.Thread(
+						target = lambda: playsound('./assets/audio/collect_sound_effect.mp3', block=False),
+						name = 'soundThread'
+					)
+					
+					thread.start()
+				
+				play_collect_sound()
 
 			if len(junk_list) == 0:
 				# no more junk, level up!
