@@ -9,9 +9,7 @@ collector.penup()
 collector.goto(0, -y + 20)
 
 collector.pendown()
-collector.shape('square')
-collector.color('green')
-collector.shapesize(3, 5)
+collector.shape('./assets/collector.gif')
 collector.penup()
 
 collector_bullet = Turtle(shape='arrow', visible=False)
@@ -47,7 +45,7 @@ def shoot():
 	collector_bullet.speed(3)
 
 def bullet_movement():
-	collector_bullet.forward(10)
+	collector_bullet.forward(2)
 
 	if collector_bullet.ycor() > y:
 		collector_bullet.hideturtle()
