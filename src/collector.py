@@ -4,68 +4,69 @@ from turtle import Turtle, screensize
 
 (x, y) = screensize()
 
-collector = Turtle()
-collector.speed(0)
-collector.hideturtle()
-collector.penup()
-collector.goto(0, -y + 20)
+class Collector(Turtle):
+	def __init__(self):
+		super().__init__()
 
-collector.pendown()
-collector.shape('./assets/collector.gif')
-collector.penup()
+		self.speed(0)
+		self.hideturtle()
+		self.penup()
+		self.goto(0, -y + 20)
 
-collector_bullet = Turtle(shape='arrow', visible=False)
-collector_bullet.speed(3)
-collector_bullet.shapesize(.5, 1)
-collector_bullet.color('yellow')
-collector_bullet.penup()
-collector_bullet.setheading(90)
+		self.pendown()
+		self.shape('./assets/collector.gif')
+		self.penup()
 
-def left():
-	global x
-	(collector_x, collector_y) = collector.position()
-	if collector_x <= -x: return
+	def left(self):
+		global x
+		(collector_x, collector_y) = self.position()
+		if collector_x <= -x: return
 
 
-	collector.goto(collector_x - 30, collector_y)
+		self.goto(collector_x - 30, collector_y)
 
-def right():
-	global x
-	(collector_x, collector_y) = collector.position()
-	if collector_x >= x: return
-	
-	collector.goto(collector_x + 30, collector_y)
+	def right(self):
+		global x
+		(collector_x, collector_y) = self.position()
+		if collector_x >= x: return
+		
+		self.goto(collector_x + 30, collector_y)
 
+	def show(self):
+		self.showturtle()
 
-def playeffect():
-	thread = threading.Thread(target = lambda: playsound('./assets/audio/shoot.mp3', block=False), name = 'soundThread')
-	thread.start()
+class Bullet(Turtle):
+	def __init__(self):
+		super().__init__(shape='arrow', visible=False)
+		self.speed(3)
+		self.shapesize(.5, 1)
+		self.color('yellow')
+		self.penup()
+		self.setheading(90)
 
-def shoot():
-	if collector_bullet.isvisible(): return
+	def move(self, speed = 2):
+		self.forward(speed)
 
-	playeffect()
-	(collector_x, collector_y) = collector.position()
+		if self.ycor() > y:
+			self.hideturtle()
 
-	collector_bullet.speed(0)
-	collector_bullet.setposition(collector_x, collector_y + 20)
-	collector_bullet.showturtle()
-	collector_bullet.speed(3)
+	def playeffect(self):
+		thread = threading.Thread(target = lambda: playsound('./assets/audio/shoot.mp3', block=False), name = 'soundThread')
+		thread.start()
 
-def bullet_movement(speed = 2):
-	collector_bullet.forward(speed)
+	def shoot(self, collector_cors):
+		if self.isvisible(): return
 
-	if collector_bullet.ycor() > y:
-		collector_bullet.hideturtle()
+		self.playeffect()
+		(collector_x, collector_y) = collector_cors
 
-def bullet_collided_with(junk):
-	return collector_bullet.distance(junk) < (20 + junk.width() + 1)
+		self.speed(0)
+		self.setposition(collector_x, collector_y + 20)
+		self.showturtle()
+		self.speed(3)
 
-def is_bullet_visible():
-	return collector_bullet.isvisible()
+	def collided_with(self, junk):
+		return self.distance(junk) < (20 + junk.width() + 1)
 
-def destroy_bullet():
-	collector_bullet.hideturtle()
-
-def show():
-	collector.showturtle()
+	def destroy(self):
+		self.hideturtle()

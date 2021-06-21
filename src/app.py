@@ -24,7 +24,10 @@ score = 0
 junk_list = []
 junk_speed = 0.1
 
-import collector as player
+from collector import Collector, Bullet
+
+player = Collector()
+bullet = Bullet()
 
 def create_junk(num_of_junk):
 	(x, y) = screensize()
@@ -69,21 +72,21 @@ screen.onkeypress(lambda: player.left() if ready else None, 'Left')
 screen.onkeypress(lambda: player.right() if ready else None, 'd')
 screen.onkeypress(lambda: player.right() if ready else None, 'Right')
 
-screen.onkey(lambda: player.shoot() if ready else None, 'w')
-screen.onkey(lambda: player.shoot() if ready else None, 'Up')
-screen.onkey(lambda: player.shoot() if ready else None, 'space')
+screen.onkey(lambda: bullet.shoot(player.position()) if ready else None, 'w')
+screen.onkey(lambda: bullet.shoot(player.position()) if ready else None, 'Up')
+screen.onkey(lambda: bullet.shoot(player.position()) if ready else None, 'space')
 screen.listen()
 
 # game loop / object collision detection
 def game():
 	global score, level
+	(player_x, player_y) = player.position()
 
-	if player.is_bullet_visible():
-		# bullet_speed = None
-		player.bullet_movement()
+	if bullet.isvisible():
+		bullet.move()
 
 		for index, junk in list(enumerate(junk_list)):
-			if player.bullet_collided_with(junk):
+			if bullet.collided_with(junk):
 				junk.clear()
 				junk.hideturtle()
 				junk_list.remove(junk)
@@ -104,11 +107,11 @@ def game():
 
 			if len(junk_list) == 0:
 				# no more junk, level up!
-				player.destroy_bullet()
+				bullet.destroy()
 				level_up()
 
 	for junk in junk_list:
-		(screen_x, sceen_y) = screensize()
+		(screen_x, screen_y) = screensize()
 		(x, y) = junk.position()
 
 		if (abs(x + 10) >= screen_x):
